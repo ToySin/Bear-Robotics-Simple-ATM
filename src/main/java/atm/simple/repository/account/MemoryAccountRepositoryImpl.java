@@ -19,4 +19,8 @@ public class MemoryAccountRepositoryImpl implements AccountRepository {
     public Account findByAccountNumber(String accountNumber) {
         return stores.get(accountNumber);
     }
+
+    public void clearStore() {
+        stores.clear();
+    }
 }

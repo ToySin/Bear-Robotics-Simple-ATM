@@ -19,4 +19,8 @@ public class MemoryCardRepositoryImpl implements CardRepository{
     public Card findByCardNumber(String cardNumber) {
         return stores.get(cardNumber);
     }
+
+    public void clearStore() {
+        stores.clear();
+    }
 }

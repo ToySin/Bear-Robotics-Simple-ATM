@@ -2,8 +2,13 @@ package atm.simple;
 
 import atm.simple.controller.ATMController;
 import atm.simple.entity.Card;
+import atm.simple.repository.account.AccountRepository;
+import atm.simple.repository.account.MemoryAccountRepositoryImpl;
+import atm.simple.repository.card.CardRepository;
+import atm.simple.repository.card.MemoryCardRepositoryImpl;
 import atm.simple.service.AccountService;
 import atm.simple.service.CardService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +18,9 @@ public class ATMTestDriver {
     private final ATMController atmController = new ATMController();
     private final CardService cardService = new CardService();
     private final AccountService accountService = new AccountService();
+
+    private final CardRepository cardRepository = new MemoryCardRepositoryImpl();
+    private final AccountRepository accountRepository = new MemoryAccountRepositoryImpl();
 
     @BeforeEach
     public void beforeTest1() {
@@ -30,9 +38,16 @@ public class ATMTestDriver {
         System.out.println();
     }
 
+    @AfterEach
+    public void afterTest1() {
+        ((MemoryCardRepositoryImpl) cardRepository).clearStore();
+        ((MemoryAccountRepositoryImpl) accountRepository).clearStore();
+        System.out.println("\n\n\n");
+    }
+
     @Test
     public void testCase1_balance_and_deposit() {
-        System.out.println("\n\n\ntestCase1_balance_and_deposit");
+        System.out.println("testCase1_balance_and_deposit\n");
 
         //The result of the following code is 1000. (beforeTest1 1000)
         System.out.println("Before deposit 1000 to donshin-acnt1: " +
@@ -65,7 +80,7 @@ public class ATMTestDriver {
 
     @Test
     public void testCase2_wrong_pin_number() {
-        System.out.println("\n\n\ntestCase2_wrong_pin_number");
+        System.out.println("testCase2_wrong_pin_number\n");
 
         //The result of the following code is "Invalid PIN."
         System.out.println("Try to deposit with wrong pin number: 1235");
@@ -79,7 +94,7 @@ public class ATMTestDriver {
 
     @Test
     public void testCase3_multiple_deposit_and_withdraw() {
-        System.out.println("\n\n\ntestCase3_multiple_deposit_and_withdraw");
+        System.out.println("testCase3_multiple_deposit_and_withdraw\n");
 
         //The result of the following code is 1000. (beforeTest1 1000)
         System.out.println("Before deposit 1000 to donshin-acnt1: " +
