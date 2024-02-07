@@ -1,8 +1,11 @@
 package atm.simple.controller;
 
+import atm.simple.entity.Account;
 import atm.simple.entity.Card;
 import atm.simple.service.AccountService;
 import atm.simple.service.CardService;
+
+import java.util.List;
 
 public class ATMController {
 
@@ -25,4 +28,35 @@ public class ATMController {
         };
     }
 
+    /**
+     * These methods can be used for the integration test.
+     */
+
+    // This method should be called before another methods.
+    public void verifyCardPin(String cardNumber, String pin) {
+        if (!cardService.verifyPIN(cardNumber, pin)) {
+            throw new IllegalArgumentException("Invalid PIN.");
+        }
+    }
+
+    // This method can be used for UI development.
+    public List<String> getAccounts(String cardNumber, String pin) {
+        Card card = cardService.getCard(cardNumber);
+        return card.getAccounts().values()
+                .stream()
+                .map(Account::getAccountNumber)
+                .toList();
+    }
+
+    public int deposit(String accountNumber, int amount) {
+        return accountService.deposit(accountNumber, amount);
+    }
+
+    public int withdraw(String accountNumber, int amount) {
+        return accountService.withdraw(accountNumber, amount);
+    }
+
+    public int getBalance(String accountNumber) {
+        return accountService.getBalance(accountNumber);
+    }
 }
